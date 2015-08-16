@@ -20,6 +20,6 @@ int main(){
 		c+=4;
 	}
 	printf("\nGCD is %d\n",a);
-	printf("Time taken is %d",c);
+	printf("Time taken is %d\n",c);
 	return 0;
 }

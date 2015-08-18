@@ -79,7 +79,7 @@ class Stack
 
 int main()
 {
-	int arr[] = {7,7, 7, 7};						//18
+	int arr[] = {7,7,7,7};						//18
 	int size = sizeof(arr)/sizeof(int);
 	int content[4][2]; 
 	Stack* stk = new Stack();
@@ -89,6 +89,7 @@ int main()
 	stk->push(first);
 	for(int i = 1; i < size; i++)
 	{
+	cout<<stk->seek()->height;
 		if(arr[i] > (stk->seek())->height)
 		{
 			info* pushed = new info(arr[i], i, i, i);
@@ -98,14 +99,14 @@ int main()
 		}
 		else
 		{
-			bool fl = false;
+			bool fl=false;
 			while((stk->seek())->height >= arr[i])
 			{
 				info* popped = stk->pop();
 				content[popped->index][1] = i - 1;
 				if(stk->isEmpty())
 				{
-					fl = true;
+					fl=true;
 					break;
 				}
 			}
@@ -115,12 +116,6 @@ int main()
 				content[i][0] = (stk->seek())->index + 1;
 				content[(stk->seek())->index][1] = i;
 
-			}
-			else
-			{
-				content[i][1] = i;
-				content[i][0] = 0;
-				content[0][1] = i - 1;
 			}
 			info* pushed = new info(arr[i], content[i][0], content[i][1], i);
 			stk->push(pushed);
@@ -146,7 +141,7 @@ int main()
 		}
 	}
 	
-	cout<<"Maxarea = "<<maxarea<<"\nStart: "<<s<<"\nEnd: "<<e<<"\n";
+	cout<<"Maxarea = "<<maxarea<<"\nStart: "<<s<<"\nEnd"<<e;
 	
 	return 0;
 }

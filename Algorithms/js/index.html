@@ -1,0 +1,85 @@
+<html>
+<head>
+	<title>JavaScript Runner</title>
+	<meta charset="UTF-8">
+	<style type="text/css">
+		button,input{
+			height: 44px;
+			outline: none;
+		}
+		button{
+			cursor: pointer;
+		}
+	</style>
+</head>
+<body style="display:flex;margin:0;justify-content:center;flex-direction:row;font-family: sans-serif;">
+	<div style="width:800px;padding:20px">
+		<div style="background-color: #f4f4f4;display: flex;justify-content: space-between;padding: 20px;">
+			<input onkeyup="keypress(event)" autofocus="on" placeholder="Type filename to load" type="text" id="inp" style="border: solid 1px #eee;padding: 10px;border-right: none;width:213px;">
+			<button onclick="loadfile()" style="border: solid 1px #eee;background-color: #fff;padding: 11px;border-left: none;border-radius: 0;background-color: #ED8147;color: #fff;border: none;">Run file</button>
+			<div>
+				<button onclick="clearWindow()" style="background-color: #01BBEE;color: #fff;border: none;padding: 11px;">Clear Output</button>
+			</div>
+		</div>
+		<div class="outputwillbehere" style="margin-top:10px;border: solid 1px #e4e4e4;border-radius:3px;background-color:#fafafa">
+			<div style="padding: 5px 20px;background-color:#f9f9f9;">Output window</div>
+			<div id="outputWindow" style="padding: 20px;background-color:#fff;word-break: break-all;"></div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		var inputBox=document.getElementById('inp');
+		var script=document.getElementById('script');
+		var outputBox=document.getElementById('outputWindow');
+		function loadfile(){
+			var filename=inputBox.value;
+			if(filename==''){
+				return;
+			}
+			createFileTag(filename);
+		}
+		function createFileTag(filename){
+			var tag = document.createElement("script");
+			tag.src = filename+'.js';
+			tag.addEventListener('load',function(e){loaded(filename)});
+			document.getElementsByTagName("head")[0].appendChild(tag);
+		}
+		function loaded(filename){
+			var context=window;
+			context[filename].apply(this);
+		}
+		function print(e,newline){
+			newline=newline||false;
+			var oldText=outputBox.innerHTML.trim();
+			if(newline){
+				oldText+='<br/>';
+			}
+			var newText=oldText+removeDoubleQuotes(JSON.stringify(e));
+			outputBox.innerHTML=newText;
+		}
+		function clearWindow(){
+			outputBox.innerHTML='';
+		}
+		function removeDoubleQuotes(s){
+			return s.substring(1,s.length-1);
+		}
+		function executeFunctionByName(functionName, context /*, args */) {
+		  var args = [].slice.call(arguments).splice(2);
+		  var namespaces = functionName.split(".");
+		  var func = namespaces.pop();
+		  for(var i = 0; i < namespaces.length; i++) {
+		    context = context[namespaces[i]];
+		  }
+		  return context[func].apply(this, args);
+		}
+		function keypress(e){
+			if(e.which==13){
+				loadfile();
+			}
+			if(e.which==27){
+				e.target.blur();
+			}
+		}
+	</script>
+
+
+</body></html>

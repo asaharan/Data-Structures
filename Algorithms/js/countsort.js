@@ -8,9 +8,20 @@ function Countsort(){
 }
 Countsort.prototype.init=function() {
 	var self=this;
-	self.a=[0,9,1,2,3,0,1,2,7,7,7,7,7,7,7,8,12,999,8];
-	self.m=10000;
+	self.a=[0,9,1,2,3,0,1,2,7,7,7,7,7,7,7,8,12,99,8,78];
+	self.setM();
 	self.sorted=[];
+
+}
+Countsort.prototype.setM=function(){
+	var self=this;
+	var n=self.a.length;
+	self.m=0;
+	for(var i=0;i<n;i++){
+		if(self.a[i]>self.m){
+			self.m=self.a[i];
+		}
+	}
 }
 Countsort.prototype.run=function(){
 	var self=this;
@@ -34,5 +45,5 @@ Countsort.prototype.sort=function(){
 		self.count[self.a[i]]--;
 	}
 	// print(self.count,true);
-	print(self.sorted);
+	print(self.sorted,true);
 }
